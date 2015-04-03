@@ -5,37 +5,37 @@
 
 using namespace std;
 
-const string type[4] = {"Heart", "Spade", "Club", "Diamond"};						//4 colors of the cards.
+const string type[4] = {"Heart", "Spade", "Club", "Diamond"};				//4 colors of the cards.
 const string number[13] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};	//from A to K .
 const double card_score[13] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0.5, 0.5, 0.5};		//the score of each kinds of cards.
-bool stack[4][13] = {0};															//the stack of cards, false means this card is in the stack.
+bool stack[4][13] = {0}									//the stack of cards, false means this card is in the stack.
 
-char GetChar();																		//the function to judge the legalty of the input.
-																					//return 'y', 'Y', 'n', 'N'.
+char GetChar();										//the function to judge the legalty of the input.
+											//return 'y', 'Y', 'n', 'N'.
 																					
-void Wash(int acards[52][2],int bcards[52][2], int &anum, int &bnum);				//the function to initialise the game.
+void Wash(int acards[52][2],int bcards[52][2], int &anum, int &bnum);			//the function to initialise the game.
 
-bool PlayerRound(int cards[52][2], int &num);										//the function for the player's round.
-																					//return false if player's score is bigger than 21.
+bool PlayerRound(int cards[52][2], int &num);						//the function for the player's round.
+											//return false if player's score is bigger than 21.
 																					
-bool ComputerRound(int acards[52][2], int bcards[52][2], int &num);					//the function for the computer's round.
-																					//return false if computer's score is bigger than 21.
+bool ComputerRound(int acards[52][2], int bcards[52][2], int &num);			//the function for the computer's round.
+											//return false if computer's score is bigger than 21.
 
-void Deal(int n, int cards[52][2], int &num);										//the function to deal cards.
-																					//n means the number of the cards to deal.
+void Deal(int n, int cards[52][2], int &num);						//the function to deal cards.
+											//n means the number of the cards to deal.
 
-void Show(int cards[52][2], int num);												//the function to show all the cards of player or computer.
+void Show(int cards[52][2], int num);							//the function to show all the cards of player or computer.
 
-double GetScore(int cards[52][2], int num);											//the function to get the score.
-																					//return the score.
+double GetScore(int cards[52][2], int num);						//the function to get the score.
+											//return the score.
 
 int main(){
-	int player_cards[52][2], computer_cards[52][2];									//player_cards[52][2], computer_cards[52][2]: the cards which the player and computer have.
-																					//cards[i][0] is the color and cards[i][1] is the number "A-K".
-	int player_cards_num = 0, computer_cards_num = 0;								//player_cards_num, computer_cards_num: the number of the cards which player and computer have.
-	double player_score = 0, computer_score = 0, score_dif = 0;						//player_score, computer_score: the score of the player and computer.
-																					//score_dif: the difference of player's and computer's score, help to judge the result.
-	char judge_play;																//judge_play: judge wheather the player want to play the game again.
+	int player_cards[52][2], computer_cards[52][2];					//player_cards[52][2], computer_cards[52][2]: the cards which the player and computer have.
+											//cards[i][0] is the color and cards[i][1] is the number "A-K".
+	int player_cards_num = 0, computer_cards_num = 0;				//player_cards_num, computer_cards_num: the number of the cards which player and computer have.
+	double player_score = 0, computer_score = 0, score_dif = 0;			//player_score, computer_score: the score of the player and computer.
+											//score_dif: the difference of player's and computer's score, help to judge the result.
+	char judge_play;								//judge_play: judge whether the player want to play the game again.
 	do{
 		Wash(player_cards, computer_cards, player_cards_num, computer_cards_num);
 		if(PlayerRound(player_cards, player_cards_num)){
@@ -65,7 +65,7 @@ int main(){
 	return 0;
 }
 char GetChar(){
-	string c;																		//c: the variable to store user's input.
+	string c;									//c: the variable to store user's input.
 	while(true){
 		try{
 			cin >> c;
@@ -160,7 +160,7 @@ void Show(int cards[52][2], int num){
 }
 
 double GetScore(int cards[52][2], int num){
-	double score = 0;																	//score: store the score and return it in the end of the function.
+	double score = 0;								//score: store the score and return it in the end of the function.
 	int i;
 	for(i=0; i<num; i++){
 		score += card_score[cards[i][1]];
