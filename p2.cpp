@@ -8,7 +8,7 @@ using namespace std;
 const string type[4] = {"Heart", "Spade", "Club", "Diamond"};				//4 colors of the cards.
 const string number[13] = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};	//from A to K .
 const double card_score[13] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0.5, 0.5, 0.5};		//the score of each kinds of cards.
-bool stack[4][13] = {0}									//the stack of cards, false means this card is in the stack.
+bool stack[4][13] = {0};								//the stack of cards, false means this card is in the stack.
 
 char GetChar();										//the function to judge the legalty of the input.
 											//return 'y', 'Y', 'n', 'N'.
@@ -18,7 +18,7 @@ void Wash(int acards[52][2],int bcards[52][2], int &anum, int &bnum);			//the fu
 bool PlayerRound(int cards[52][2], int &num);						//the function for the player's round.
 											//return false if player's score is bigger than 21.
 																					
-bool ComputerRound(int acards[52][2], int bcards[52][2], int &num);			//the function for the computer's round.
+bool ComputerRound(int cards[52][2], int &num, double score);				//the function for the computer's round.
 											//return false if computer's score is bigger than 21.
 
 void Deal(int n, int cards[52][2], int &num);						//the function to deal cards.
@@ -35,11 +35,11 @@ int main(){
 	int player_cards_num = 0, computer_cards_num = 0;				//player_cards_num, computer_cards_num: the number of the cards which player and computer have.
 	double player_score = 0, computer_score = 0, score_dif = 0;			//player_score, computer_score: the score of the player and computer.
 											//score_dif: the difference of player's and computer's score, help to judge the result.
-	char judge_play;								//judge_play: judge whether the player want to play the game again.
+	char judge_play;								//judge_play: judge wheather the player want to play the game again.
 	do{
 		Wash(player_cards, computer_cards, player_cards_num, computer_cards_num);
 		if(PlayerRound(player_cards, player_cards_num)){
-			if(ComputerRound(computer_cards, player_cards, computer_cards_num)){
+			if(ComputerRound(computer_cards, computer_cards_num, GetScore(player_cards, player_cards_num))){
 				cout << "your score: " << GetScore(player_cards, player_cards_num) << endl;
 				cout << "computer's score: " << GetScore(computer_cards, computer_cards_num) << endl;
 				score_dif = GetScore(player_cards, player_cards_num) - GetScore(computer_cards, computer_cards_num);
@@ -97,7 +97,7 @@ void Wash(int acards[52][2], int bcards[52][2], int &anum, int &bnum){
 }
 
 bool PlayerRound(int cards[52][2], int &num){
-	char judge;																		//judge: judge wheather the player want one more card.
+	char judge;									//judge: judge wheather the player want one more card.
 	Deal(2, cards, num);
 	cout << "Player has: ";
 	Show(cards, num);
@@ -117,15 +117,15 @@ bool PlayerRound(int cards[52][2], int &num){
 	return true;
 }
 
-bool ComputerRound(int acards[52][2], int bcards[52][2], int &num){
-	Deal(2, acards, num);
+bool ComputerRound(int cards[52][2], int &num, double score){
+	Deal(2, cards, num);
 	cout << "Computer has: ";
-	Show(acards, num);
-	while(0 < GetScore(bcards, num) - GetScore(acards, num)){
-		Deal(1, acards, num);
+	Show(cards, num);
+	while(0 < score - GetScore(cards, num)){
+		Deal(1, cards, num);
 		cout << "Computer needs one more card: ";
-		Show(acards, num);
-		if(0 > 21.0 - GetScore(acards, num)){
+		Show(cards, num);
+		if(0 > 21.0 - GetScore(cards, num)){
 			cout << "You win!" << endl;
 			return false;
 		}
