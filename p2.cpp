@@ -121,7 +121,7 @@ bool ComputerRound(int cards[52][2], int &num, double score){
 	Deal(2, cards, num);
 	cout << "Computer has: ";
 	Show(cards, num);
-	while(0 < score - GetScore(cards, num)){
+	while(0 <= score - GetScore(cards, num)){
 		Deal(1, cards, num);
 		cout << "Computer needs one more card: ";
 		Show(cards, num);
