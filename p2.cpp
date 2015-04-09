@@ -18,7 +18,7 @@ void Wash(int acards[52][2],int bcards[52][2], int &anum, int &bnum);			//the fu
 bool PlayerRound(int cards[52][2], int &num);						//the function for the player's round.
 											//return false if player's score is bigger than 21.
 																					
-bool ComputerRound(int cards[52][2], int &num, double score);				//the function for the computer's round.
+bool ComputerRound(int cards[52][2], int &anum, int bnum, double score);		//the function for the computer's round.
 											//return false if computer's score is bigger than 21.
 
 void Deal(int n, int cards[52][2], int &num);						//the function to deal cards.
@@ -39,7 +39,7 @@ int main(){
 	do{
 		Wash(player_cards, computer_cards, player_cards_num, computer_cards_num);
 		if(PlayerRound(player_cards, player_cards_num)){
-			if(ComputerRound(computer_cards, computer_cards_num, GetScore(player_cards, player_cards_num))){
+			if(ComputerRound(computer_cards, computer_cards_num, player_cards_num, GetScore(player_cards, player_cards_num))){
 				cout << "your score: " << GetScore(player_cards, player_cards_num) << endl;
 				cout << "computer's score: " << GetScore(computer_cards, computer_cards_num) << endl;
 				score_dif = GetScore(player_cards, player_cards_num) - GetScore(computer_cards, computer_cards_num);
@@ -117,15 +117,15 @@ bool PlayerRound(int cards[52][2], int &num){
 	return true;
 }
 
-bool ComputerRound(int cards[52][2], int &num, double score){
-	Deal(2, cards, num);
+bool ComputerRound(int cards[52][2], int &anum, int bnum, double score){
+	Deal(2, cards, anum);
 	cout << "Computer has: ";
-	Show(cards, num);
-	while(0 <= score - GetScore(cards, num)){
-		Deal(1, cards, num);
+	Show(cards, anum);
+	while(0 <= score - GetScore(cards, anum) || (0 == score - GetScore(cards, anum) && anum <= bnum)){
+		Deal(1, cards, anum);
 		cout << "Computer needs one more card: ";
-		Show(cards, num);
-		if(0 > 21.0 - GetScore(cards, num)){
+		Show(cards, anum);
+		if(0 > 21.0 - GetScore(cards, anum)){
 			cout << "You win!" << endl;
 			return false;
 		}
